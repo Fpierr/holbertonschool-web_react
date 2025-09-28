@@ -1,0 +1,9 @@
+.root-notifications {
+    border: 1.5px dashed #e1003c;
+    padding-left: 20px;
+    text-align: left;
+}
+
+.notifications-items {
+    /* text-align: left; */
+}
