@@ -11,7 +11,7 @@ test('Whether the title h1 is rendered : School Dashboard', () => {
 test('Render the text p element in app-body and app-footer', () => {
     render(<App />);
     const pBody = screen.getByText(/Login to access the full dashboard/i);
-    const pFooter = screen.getByText(/Copyright 2025 - Holberton School main dashboard/i);
+    const pFooter = screen.getByText(/Copyright 2025 Holberton School main dashboard/i);
     expect(pBody).toBeInTheDocument();
     expect(pFooter).toBeInTheDocument();
 })
