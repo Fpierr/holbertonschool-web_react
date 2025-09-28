@@ -41,5 +41,7 @@ test('check if renders 2 label elements with text Email and Password', () => {
 test('check if render a button text Ok', ()=> {
     render(<App/>);
     const buttonText = screen.getByRole('button', {name: /Ok/i});
+    const buttonText2 = screen.getByText(/Ok/i);
     expect(buttonText).toBeInTheDocument();
+    expect(buttonText2).toBeInTheDocument();
 });
