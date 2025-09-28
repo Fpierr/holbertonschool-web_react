@@ -40,6 +40,6 @@ test('check if renders 2 label elements with text Email and Password', () => {
 
 test('check if render a button text Ok', ()=> {
     render(<App/>);
-    const buttonText = screen.getByRole('button', {name: /Ok/i});
+    const buttonText = screen.getByRole('button', {name: /ok/i});
     expect(buttonText).toBeInTheDocument();
 });
