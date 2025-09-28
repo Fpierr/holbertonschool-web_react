@@ -52,8 +52,11 @@ identity-obj-proxy
 jest-environment-jsdom
 @testing-library/user-event
 ```
-With the command `npm install --save-dev`
-Ex: ```npm install save-dev @babel/preset-env```
+- With the command :
+`npm install --save-dev`
+
+- Exemple :
+```npm install save-dev @babel/preset-env```
 
 ## Author
-[Fanuel PIERRE](https://github.com/pierr)
+[Fanuel PIERRE](https://github.com/fpierr)
