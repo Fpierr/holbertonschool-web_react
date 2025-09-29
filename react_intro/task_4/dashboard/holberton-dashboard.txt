@@ -1,1 +1,1 @@
-https://fpierr.github.io/holbertonschool-web_react/rect-intro/task_4/
+https://fpierr.github.io/holbertonschool-web_react/rect_intro/task_4/dashboard/
