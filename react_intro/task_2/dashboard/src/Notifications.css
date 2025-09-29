@@ -1,9 +1,13 @@
-.root-notifications {
+.notifications {
     border: 1.5px dashed #e1003c;
     padding-left: 20px;
     text-align: left;
 }
 
-.notifications-items {
-    /* text-align: left; */
+.notifications ul {
+    color: #e1003c;
+}
+
+.notifications ul li[data-priority=default]{
+    color: blue;
 }
