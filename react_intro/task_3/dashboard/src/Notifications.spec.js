@@ -1,32 +1,31 @@
 import { render, screen, fireEvent } from '@testing-library/react';
+import { expect, test, describe, jest } from '@jest/globals';
 import Notifications from './Notifications';
 
-describe('Notifications component', () => {
-  beforeEach(() => {
+describe('Notifications Component', () => {
+  test('renders the notifications title', () => {
     render(<Notifications />);
+    const titleElement = screen.getByText(/here is the list of notifications/i);
+    expect(titleElement).toBeInTheDocument();
   });
 
-  it('renders the notifications title', () => {
-    const title = screen.getByText(/here is the list of notifications/i);
-    expect(title).toBeInTheDocument();
+  test('renders the close button', () => {
+    render(<Notifications />);
+    const closeButton = screen.getByRole('button', { name: /close/i });
+    expect(closeButton).toBeInTheDocument();
   });
 
-  it('renders the close button', () => {
-    const button = screen.getByRole('button') || screen.getByText(/close/i);
-    expect(button).toBeInTheDocument();
+  test('renders exactly three list items', () => {
+    render(<Notifications />);
+    const listItems = screen.getAllByRole('listitem');
+    expect(listItems).toHaveLength(3);
   });
 
-  it('renders exactly 3 notifications', () => {
-    const items = screen.getAllByRole('listitem');
-    expect(items).toHaveLength(3);
-  });
-
-  it('logs "Close button has been clicked" when the close button is clicked', () => {
-    console.log = jest.fn();
-
-    const button = screen.getByRole('button') || screen.getByText(/close/i);
-    fireEvent.click(button);
-
-    expect(console.log).toHaveBeenCalledWith('Close button has been clicked');
+  test('logs "Close button has been clicked" when the close button is clicked', () => {
+    render(<Notifications />);
+    const consoleLog = jest.spyOn(console, 'log').mockImplementation();
+    const closeButton = screen.getByRole('button', { name: /close/i });
+    fireEvent.click(closeButton);
+    expect(consoleLog).toHaveBeenCalledWith(expect.stringMatching(/close button has been clicked/i));
   });
 });
