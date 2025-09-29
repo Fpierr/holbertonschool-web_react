@@ -6,25 +6,27 @@ describe('Notifications component', () => {
     render(<Notifications />);
   });
 
-  it('should render the notifications title', () => {
+  it('renders the notifications title', () => {
     const title = screen.getByText(/here is the list of notifications/i);
     expect(title).toBeInTheDocument();
   });
 
-  it('should render the close button', () => {
-    const button = screen.getByRole('button');
+  it('renders the close button', () => {
+    const button = screen.getByRole('button') || screen.getByText(/close/i);
     expect(button).toBeInTheDocument();
   });
 
-  it('should render exactly 3 notifications', () => {
+  it('renders exactly 3 notifications', () => {
     const items = screen.getAllByRole('listitem');
-    expect(items.length).toBe(3);
+    expect(items).toHaveLength(3);
   });
 
-  it('should log "Close button has been clicked" when the close button is clicked', () => {
+  it('logs "Close button has been clicked" when the close button is clicked', () => {
     console.log = jest.fn();
-    const button = screen.getByRole('button');
+
+    const button = screen.getByRole('button') || screen.getByText(/close/i);
     fireEvent.click(button);
+
     expect(console.log).toHaveBeenCalledWith('Close button has been clicked');
   });
 });
