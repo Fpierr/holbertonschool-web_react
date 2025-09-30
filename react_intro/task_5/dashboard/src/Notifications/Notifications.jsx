@@ -1,0 +1,36 @@
+import "./Notifications.css";
+import closeButton from "../assets/close-button.png";
+import { getLatestNotification } from "../utils/utils";
+
+function Notifications() {
+    return (
+        <>
+            <div className="notifications">
+                <>
+                    <button
+                        style={{
+                            float: "right",
+                            background: 'transparent',
+                            border: "none",
+                            cursor: "pointer"
+                        }}
+                        aria-label="Close"
+                        onClick={() => console.log('Close button has been clicked')}
+                    >
+                        <img src={closeButton} alt="Close" style={{ width: "10px", height: "10px" }} />
+                    </button>
+                    <>
+                        <p>Here is the list of notifications</p>
+                        <ul>
+                            <li data-priority="default" >New course available</li>
+                            <li data-priority="urgent" >New resume available</li>
+                            <li dangerouslySetInnerHTML={{ __html: getLatestNotification() }}/>
+                        </ul>
+                    </>
+                </>
+            </div>
+        </>
+    )
+}
+
+export default Notifications
