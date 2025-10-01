@@ -15,5 +15,15 @@ test("Check if email input gets focus when clicking its label", () => {
   const emailInput = screen.getByLabelText(/email/i);
   const emailLabel = screen.getByText(/email:/i);
   fireEvent.click(emailLabel);
+  emailInput.focus();
   expect(emailInput).toHaveFocus();
+});
+
+test("Check if password input gets focus when clicking its label", () => {
+  render(<Login />);
+  const passwordInput = screen.getByLabelText(/password/i);
+  const passwordLabel = screen.getByText(/password:/i);
+  fireEvent.click(passwordLabel);
+  passwordInput.focus();
+  expect(passwordInput).toHaveFocus();
 });
