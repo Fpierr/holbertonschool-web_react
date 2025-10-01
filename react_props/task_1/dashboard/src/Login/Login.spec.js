@@ -4,9 +4,11 @@ import Login from "./Login.jsx";
 
 test("Check whether 2 labels, 2 inputs, and 1 button are rendered", () => {
   render(<Login />);
-  expect(screen.getAllByRole('textbox')).toHaveLength(2);
+  const textInputs = screen.getAllByRole('textbox');
+  const passwordInput = screen.getByLabelText(/password/i);
+  expect([...textInputs, passwordInput]).toHaveLength(2);
   expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
-  expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
+  expect(passwordInput).toBeInTheDocument();
   expect(screen.getByRole("button", { name: /ok/i })).toBeInTheDocument();
 });
 
