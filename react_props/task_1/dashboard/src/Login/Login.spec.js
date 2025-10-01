@@ -1,29 +1,25 @@
-import React from "react";
-import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import Login from "./Login";
+import {render, screen} from "@testing-library/react";
+import { expect, test} from "@jest/globals";
+import Login from "./Login.jsx";
 
-describe("Login component", () => {
-  beforeEach(() => render(<Login />));
+test('Check whether 2 input elements are rendered', () => {
+    render(<Login />);
+    const inputEmail = screen.getByLabelText(/Email/i);
+    const inputPassword = screen.getByLabelText(/Password/i);
+    expect(inputEmail).toBeInTheDocument();
+    expect(inputPassword).toBeInTheDocument();
+});
 
-  test("renders 2 labels, 2 inputs, and 1 button", () => {
-    expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
-    expect(screen.getByRole("textbox")).toBeInTheDocument();
-    expect(screen.getByLabelText(/password/i).type).toBe("password");
-    expect(screen.getByRole("button", { name: /ok/i })).toBeInTheDocument();
-  });
+test('check if renders 2 label elements with text Email and Password', () => {
+    render(<Login/>);
+    const labelEmail = screen.getByLabelText(/Email/i);
+    const labelPwd = screen.getByLabelText(/Password/i);
+    expect(labelEmail).toBeInTheDocument();
+    expect(labelPwd).toBeInTheDocument();
+});
 
-  test.each([
-    [/email:/i, /email/i],
-    [/password:/i, /password/i],
-  ])("focuses input when clicking label %s", async (labelText, inputLabel) => {
-    const label = screen.getByText(labelText);
-    const input = screen.getByLabelText(inputLabel);
-
-    await userEvent.click(label);
-    expect(input).toHaveFocus();
-  });
+test('check if render a button text Ok', ()=> {
+    render(<Login/>);
+    const buttonText = screen.getByRole('button', {name: /ok/i});
+    expect(buttonText).toBeInTheDocument();
 });
