@@ -9,6 +9,8 @@ describe("Login component", () => {
   test("renders 2 labels, 2 inputs, and 1 button", () => {
     expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
     expect(screen.getByRole("textbox")).toBeInTheDocument();
     expect(screen.getByLabelText(/password/i).type).toBe("password");
     expect(screen.getByRole("button", { name: /ok/i })).toBeInTheDocument();
