@@ -15,7 +15,7 @@ describe("NotificationItem Component", () => {
     };
     render(<NotificationItem {...props} />);
     const li = screen.getByTestId("notification-item");
-    expect(li).toHaveStyle({ color: "rgb(255, 0, 0)" }); // ✅ use RGB
+    expect(li).toHaveStyle({ color: "rgb(255, 0, 0)" });
     expect(li).toHaveAttribute("data-notification-type", "urgent");
     expect(li.innerHTML).toContain("Urgent");
   });
