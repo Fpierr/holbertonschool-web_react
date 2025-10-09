@@ -9,16 +9,17 @@ function Notifications({ notifications = [], displayDrawer = true }) {
       <div className="notification-title">Your notifications</div>
 
       {displayDrawer ? (
-        <div className="Notifications">
+        <div className="notifications">
           {notifications.length > 0 ? (
             <>
-              <p>Here is the list of notifications</p>
+              
               <button
                 style={{
                   float: "right",
                   background: "transparent",
                   border: "none",
                   cursor: "pointer",
+                  flex: 1,
                 }}
                 aria-label="Close"
                 onClick={() => console.log("Close button has been clicked")}
@@ -29,6 +30,7 @@ function Notifications({ notifications = [], displayDrawer = true }) {
                   style={{ width: "10px", height: "10px" }}
                 />
               </button>
+              <p style={{marginLeft: "20px"}} >Here is the list of notifications</p>
 
               <ul>
                 {notifications.map((notif) => (

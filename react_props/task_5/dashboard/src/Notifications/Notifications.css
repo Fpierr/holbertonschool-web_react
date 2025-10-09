@@ -1,6 +1,7 @@
 .notifications {
     border: 1.5px dashed #e1003c;
-    padding-left: 20px;
+    display: inline-block;
+    float: right;
     text-align: left;
 }
 
@@ -10,4 +11,9 @@
 
 .notifications ul li[data-priority=default]{
     color: blue;
+}
+
+.notification-title { 
+    text-align: right;
+    margin: 0;
 }
