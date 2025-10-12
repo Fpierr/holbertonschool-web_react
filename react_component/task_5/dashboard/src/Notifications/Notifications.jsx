@@ -10,20 +10,16 @@ class Notifications extends Component {
     this.markAsRead = this.markAsRead.bind(this);
   }
 
+  shouldComponentUpdate(nextProps) {
+    return nextProps.notifications.length !== this.props.notifications.length;
+  }
+
   markAsRead(id) {
     console.log(`Notification ${id} has been marked as read`);
   }
 
-  shouldComponentUpdate(nextProps) {
-    return (
-      nextProps.notifications.length >
-      this.props.notifications.length ||
-      nextProps.displayDrawer !== this.props.displayDrawer
-    );
-  }
-
   render() {
-    const { notifications = [], displayDrawer = true } = this.props;
+  const { notifications = [], displayDrawer = true } = this.props;
     return (
       <>
         <div className="notification-title">Your notifications</div>
@@ -49,9 +45,7 @@ class Notifications extends Component {
                     style={{ width: "10px", height: "10px" }}
                   />
                 </button>
-                <p style={{ marginLeft: "20px" }}>
-                  Here is the list of notifications
-                </p>
+                <p style={{marginLeft: "20px"}} >Here is the list of notifications</p>
 
                 <ul>
                   {notifications.map((notif) => (
