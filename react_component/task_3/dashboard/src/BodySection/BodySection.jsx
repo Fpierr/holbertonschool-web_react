@@ -2,7 +2,7 @@ import './BodySection.css'
 
 function BodySection ({ title, children }) {
     return (
-        <div class="BodySection">
+        <div className="BodySection">
             <h2>{title}</h2>
             {children}
         </div>
