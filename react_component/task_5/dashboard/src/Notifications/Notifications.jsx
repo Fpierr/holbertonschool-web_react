@@ -19,7 +19,7 @@ class Notifications extends Component {
   }
 
   render() {
-  const { notifications = [], displayDrawer = true } = this.props;
+    const { notifications = [], displayDrawer = true } = this.props;
     return (
       <>
         <div className="notification-title">Your notifications</div>
@@ -45,7 +45,9 @@ class Notifications extends Component {
                     style={{ width: "10px", height: "10px" }}
                   />
                 </button>
-                <p style={{marginLeft: "20px"}} >Here is the list of notifications</p>
+                <p style={{ marginLeft: "20px" }}>
+                  Here is the list of notifications
+                </p>
 
                 <ul>
                   {notifications.map((notif) => (
