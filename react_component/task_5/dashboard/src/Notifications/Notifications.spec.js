@@ -64,4 +64,24 @@ describe("Notifications Component", () => {
     fireEvent.click(items[1]);
     expect(consoleSpy).toHaveBeenCalledWith("Notification 2 has been marked as read");
   });
+
+  test('Does not re-render when notifications length does not change', () => {
+    const consoleSpy = jest.spyOn(console, "log").mockImplementation();
+    const { rerender } = render(
+      <Notifications notifications={notificationsList} displayDrawer={true} />
+    );
+    const newListSameLength = [...notificationsList];
+    rerender(<Notifications notifications={newListSameLength} displayDrawer={true} />);
+    expect(consoleSpy).not.toHaveBeenCalledWith("Notification 1 has been marked as read");
+  });
+
+  test('Re-renders when notifications length changes', () => {
+    const consoleSpy = jest.spyOn(console, "log").mockImplementation();
+    const { rerender } = render(
+      <Notifications notifications={notificationsList} displayDrawer={true} />
+    );
+    const newList = [...notificationsList, { id: 4, type: "default", value: "New one" }];
+    rerender(<Notifications notifications={newList} displayDrawer={true} />);
+    expect(screen.getByText("New one")).toBeInTheDocument();
+  });
 });
