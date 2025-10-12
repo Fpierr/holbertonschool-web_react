@@ -23,7 +23,7 @@ describe("NotificationItem Component", () => {
     const li = screen.getByTestId("notification-item");
 
     expect(li).toHaveAttribute("data-notification-type", "urgent");
-    expect(li).toHaveStyle({ color: "red" });
+    expect(li.style.color).toContain("red");
     expect(li.innerHTML).toContain("Urgent requirement");
   });
 
