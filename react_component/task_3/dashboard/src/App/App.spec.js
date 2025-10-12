@@ -39,4 +39,12 @@ describe('App Component keyboard event', () => {
     unmount();
     expect(document.removeEventListener).toHaveBeenCalledWith('keydown', expect.any(Function));
   });
+
+  test('renders the News from the School section with correct paragraph', () => {
+    const { getByText } = render(<App isLoggedIn={false} />);
+    const heading = getByText(/news from the school/i);
+    const paragraph = getByText(/holberton school news goes here/i);
+    expect(heading).toBeInTheDocument();
+    expect(paragraph).toBeInTheDocument();
+  });
 });
