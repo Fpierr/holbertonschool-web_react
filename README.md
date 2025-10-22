@@ -4,7 +4,7 @@
 Repository for exercises and projects from the **Web React** program at Holberton School.  
 It covers React fundamentals, component management, props handling, state management, and Webpack usage.  
 
-> ⚠️ This project is still in progress; new skills and exercises will be added over time.
+>  This project is still in progress; new skills and exercises will be added over time.
 
 ---
 
