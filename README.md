@@ -37,7 +37,7 @@ or
 
 Clone the repository:
 
-git clone https://github.com/Fpierr/holbertonschool-web_react.git
+```git clone https://github.com/Fpierr/holbertonschool-web_react.git```
 
 cd holbertonschool-web_react
 
