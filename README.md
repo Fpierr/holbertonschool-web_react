@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-
-=======
->>>>>>> ec1f00b0f2ab04b3658dfb9ee3ff85e212a21f80
 # Holberton School Web React
 
 ## Description
