@@ -4,14 +4,14 @@ function getCurrentYear() {
 
 function getFooterCopy(isIndex) {
   if (isIndex) {
-    return "Holberton School"
+    return "Holberton School";
   } else {
-    return 'Holberton School main dashboard'
+    return "Holberton School main dashboard";
   }
 }
 
-function getLatestNotification() {
-  return "<strong>Urgent requirement</strong> - complete by EOD"
+function getLatestNotification(){
+  return "<strong>Urgent requirement</strong> - complete by EOD";
 }
 
 export { getCurrentYear, getFooterCopy, getLatestNotification };

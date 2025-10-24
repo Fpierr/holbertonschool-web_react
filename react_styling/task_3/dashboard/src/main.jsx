@@ -1,4 +1,15 @@
-import ReactDOM from 'react-dom/client';
-import App from './App/App';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css'
 
-ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import App from './App/App.jsx'
+import './App/App.css';
+import './main.css';
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)
