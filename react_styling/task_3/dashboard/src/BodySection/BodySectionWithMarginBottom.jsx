@@ -1,14 +1,16 @@
 import BodySection from './BodySection';
-import './BodySectionWithMarginBottom.css';
+import { StyleSheet, css } from 'aphrodite';
 
-function BodySectionWithMarginBottom({ title, children }) {
-  return (
-    <div className="bodySectionWithMargin">
-      <BodySection title={title}>
-        {children}
-      </BodySection>
-    </div>
-  );
+const styles = StyleSheet.create({
+    bodySectionWithMargin: {
+        marginBottom: '40px',
+    },
+});
+
+export default function BodySectionWithMarginBottom(props) {
+    return (
+        <div className={`${css(styles.bodySectionWithMargin)} bodySectionWithMargin`} data-testid="body-section-with-margin">
+            <BodySection {...props} />
+        </div>
+    );
 }
-
-export default BodySectionWithMarginBottom;

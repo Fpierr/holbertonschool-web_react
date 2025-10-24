@@ -1,18 +1,22 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import BodySection from './BodySection';
+import { test, expect } from '@jest/globals';
+import { StyleSheetTestUtils } from 'aphrodite';
 
-describe('BodySection', () => {
-  it('renders a heading with the title prop value', () => {
-    const { getByText } = render(<BodySection title="Test Title" />);
-    expect(getByText('Test Title')).toBeInTheDocument();
-  });
+StyleSheetTestUtils.suppressStyleInjection();
 
-  it('renders the children passed to it', () => {
-    const { getByText } = render(
-      <BodySection title="Title">
-        <p>Child paragraph</p>
-      </BodySection>
+test('Should pass any number of children without knows then beforehand', () => {
+    render(
+        <BodySection title="Test Title">
+            <p>Child 1</p>
+            <p>Child 2</p>
+            <p>Child 3</p>
+        </BodySection>
     );
-    expect(getByText('Child paragraph')).toBeInTheDocument();
-  });
+
+    const titleElement = screen.getByRole('heading', { name: /test title/i });
+    expect(titleElement).toBeInTheDocument();
+    expect(screen.getByText('Child 1')).toBeInTheDocument();
+    expect(screen.getByText('Child 2')).toBeInTheDocument();
+    expect(screen.getByText('Child 3')).toBeInTheDocument();
 });

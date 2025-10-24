@@ -1,29 +1,53 @@
 import PropTypes from 'prop-types';
+import { StyleSheet, css } from 'aphrodite';
 
-CourseListRow.propTypes = {
-  isHeader: PropTypes.bool.isRequired,
-  textFirstCell: PropTypes.string.isRequired,
-  textSecondCell: PropTypes.string,
-};
+const styles = StyleSheet.create({
+    headerStyle: {
+        backgroundColor: '#deb5b545',
+    },
+    rowStyle: {
+        backgroundColor: '#f5f5f5ab',
+    },
+    th: {
+        border: '2px solid #ddd',
+        padding: '10px',
+    },
+    td: {
+        border: '2px solid #ddd',
+        padding: '10px',
+    },
+});
 
 export default function CourseListRow({
-  isHeader = false,
-  textFirstCell = '',
-  textSecondCell = null,
+    isHeader = false,
+    textFirstCell = '',
+    textSecondCell = null,
 }) {
-  const style = isHeader
-    ? { backgroundColor: 'var(--color-table-header)', opacity: 0.66 }
-    : { backgroundColor: 'var(--color-table-rows)', opacity: 0.45 };
+    const rowStyle = isHeader ? styles.headerStyle : styles.rowStyle;
 
-  return isHeader ? (
-    <tr style={style}>
-      <th colSpan={textSecondCell ? 1 : 2}>{textFirstCell}</th>
-      {textSecondCell ? <th>{textSecondCell}</th> : null}
-    </tr>
-  ) : (
-    <tr style={style}>
-      <td>{textFirstCell}</td>
-      <td>{textSecondCell}</td>
-    </tr>
-  );
+    return (
+        <tr className={css(rowStyle)}>
+            {isHeader ? (
+                <>
+                    <th colSpan={textSecondCell ? 1 : 2} className={css(styles.th)}>
+                        {textFirstCell}
+                    </th>
+                    {textSecondCell && (
+                        <th className={css(styles.th)}>{textSecondCell}</th>
+                    )}
+                </>
+            ) : (
+                <>
+                    <td className={css(styles.td)}>{textFirstCell}</td>
+                    <td className={css(styles.td)}>{textSecondCell}</td>
+                </>
+            )}
+        </tr>
+    );
 }
+
+CourseListRow.propTypes = {
+    isHeader: PropTypes.bool.isRequired,
+    textFirstCell: PropTypes.string.isRequired,
+    textSecondCell: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+};
