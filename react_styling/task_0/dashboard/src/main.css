@@ -4,3 +4,8 @@
 html, body {
   font-family: "Roboto", "Helvetica Neue", "Arial", "sans-serif";
 }
+
+/* Optional Tailwind utilities */
+.font-bold { font-weight: 700; }
+.font-medium { font-weight: 500; }
+.font-regular { font-weight: 400; }
