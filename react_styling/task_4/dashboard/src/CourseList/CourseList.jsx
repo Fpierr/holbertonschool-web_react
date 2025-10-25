@@ -1,63 +1,36 @@
-import React from 'react';
-import CourseListRow from './CourseListRow';
-import PropTypes from 'prop-types';
-import WithLogging from '../HOC/WithLogging';
+import React from "react";
+import PropTypes from "prop-types";
 
-class CourseList extends React.Component {
-  render() {
-    const { courses = [] } = this.props;
-
-    return (
-      <div className="courses my-32 mx-auto w-[90%] min-h-[33vh]">
-        {courses.length > 0 ? (
-          <table
-            id="CourseList"
-            className="w-full border-2 border-gray-400 border-collapse text-left"
-          >
-            <thead>
-              <CourseListRow
-                textFirstCell="Available courses"
-                isHeader={true}
-                customStyle="bg-red-100"
-              />
-              <CourseListRow
-                textFirstCell="Course name"
-                textSecondCell="Credit"
-                isHeader={true}
-                customStyle="bg-red-100"
-              />
-            </thead>
-            <tbody>
-              {courses.map((course) => (
-                <CourseListRow
-                  key={course.id}
-                  textFirstCell={course.name}
-                  textSecondCell={course.credit}
-                />
-              ))}
-            </tbody>
-          </table>
-        ) : (
-          <table
-            id="CourseList"
-            className="w-full border-2 border-gray-400 border-collapse text-left"
-          >
-            <thead>
-              <CourseListRow
-                isHeader={true}
-                textFirstCell="No course available yet"
-                customStyle="bg-red-100"
-              />
-            </thead>
-          </table>
-        )}
-      </div>
-    );
-  }
+function CourseList({ courses }) {
+  return (
+    <table className="w-full border-collapse border border-gray-300 text-left mt-4 
+                      max-[520px]:text-sm max-[520px]:w-full">
+      <thead className="bg-gray-100">
+        <tr>
+          <th className="border border-gray-300 p-2">Course name</th>
+          <th className="border border-gray-300 p-2">Credit</th>
+        </tr>
+      </thead>
+      <tbody>
+        {courses.map((course) => (
+          <tr key={course.id} className="hover:bg-gray-50">
+            <td className="border border-gray-300 p-2">{course.name}</td>
+            <td className="border border-gray-300 p-2">{course.credit}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
 }
 
 CourseList.propTypes = {
-  courses: PropTypes.array.isRequired,
+  courses: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      credit: PropTypes.number.isRequired,
+    })
+  ).isRequired,
 };
 
-export default WithLogging(CourseList);
+export default CourseList;

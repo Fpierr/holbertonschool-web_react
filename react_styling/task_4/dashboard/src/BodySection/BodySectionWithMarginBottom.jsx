@@ -1,3 +1,4 @@
+import React from "react";
 import BodySection from "./BodySection";
 
 function BodySectionWithMarginBottom({ title, children }) {

@@ -1,13 +1,12 @@
-import { getCurrentYear, getFooterCopy } from "../utils/utils";
+import React from "react";
 
-function Footer() {
+export default function Footer() {
   return (
-    <footer className="App-footer border-t-2 border-[var(--main-color)] mt-8 text-center py-2 text-sm text-gray-700">
-      <p>
-        Copyright {getCurrentYear()} - {getFooterCopy(true)}
-      </p>
+    <footer
+      className="App-footer text-center text-sm border-t-4 border-[var(--main-color)] mt-10 py-4 
+                 text-gray-600 max-[520px]:text-xs"
+    >
+      <p>Copyright 2025 - Holberton School</p>
     </footer>
   );
 }
-
-export default Footer;
