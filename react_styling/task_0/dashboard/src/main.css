@@ -1,18 +1,14 @@
-/* @import "tailwindcss"; */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@theme {
+:root {
   --font-sans: "Roboto", "ui-sans-serif", "system-ui", sans-serif;
 }
 
 @layer base {
-  :root {
+  html, body {
     @apply font-sans;
+    font-family: var(--font-sans);
   }
-}
-
-html, body {
-  font-family: "Roboto", "ui-sans-serif", "system-ui", sans-serif;
 }
