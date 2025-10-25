@@ -1,42 +1,13 @@
-:root {
+@import "tailwindcss";
+
+@theme {
+  --font-sans: Roboto, ui-sans-serif, system-ui, sans-serif;
   --color-table-header: #deb5b5;
-  --color-table-rows: #cdcdcd;
-  --border-gray: #9ca3af;
+  --color-table-rows: #CDCDCD;
 }
 
-.courses {
-  width: 85%;
-  margin: 2rem auto;
-}
-
-#CourseList {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-/* HEADER ROWS */
-#CourseList thead tr:first-child th {
-  background-color: var(--color-table-header);
-  opacity: 0.66;
-  text-align: center;
-}
-
-#CourseList thead tr:nth-child(2) th {
-  background-color: var(--color-table-header);
-  opacity: 0.66;
-}
-
-/* BODY ROWS */
-#CourseList tbody tr td {
-  background-color: var(--color-table-rows);
-  opacity: 0.45;
-}
-
-#CourseList th,
-#CourseList td {
-  border: 1px solid var(--border-gray);
-}
-
-#CourseList td {
-  padding-left: 8px;
+@layer base {
+  html, body {
+    @apply font-sans antialiased;
+  }
 }

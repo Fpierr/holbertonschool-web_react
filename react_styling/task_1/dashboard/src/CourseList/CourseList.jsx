@@ -1,30 +1,5 @@
 import PropTypes from 'prop-types';
-import { StyleSheet, css } from 'aphrodite';
 import CourseListRow from './CourseListRow';
-
-const styles = StyleSheet.create({
-    courses: {
-        margin: '130px auto',
-        width: '90%',
-        height: '33vh',
-    },
-    courseTable: {
-        width: '100%',
-    },
-    table: {
-        borderCollapse: 'collapse',
-        border: '2px solid rgb(161, 161, 161)',
-    },
-    th: {
-        border: '2px solid rgb(161, 161, 161)',
-        padding: '10px',
-        backgroundColor: '#f4f4f4',
-    },
-    td: {
-        border: '2px solid rgb(161, 161, 161)',
-        padding: '10px',
-    },
-});
 
 CourseList.propTypes = {
     courses: PropTypes.array.isRequired,
@@ -32,9 +7,9 @@ CourseList.propTypes = {
 
 export default function CourseList({ courses = [] }) {
     return (
-        <div className={css(styles.courses)}>
+        <div className="mx-auto my-32 w-[80%] md:w-[85%] lg:w-[90%]">
             {courses.length > 0 ? (
-                <table id="CourseList" className={css(styles.courseTable)}>
+                <table id="CourseList" className="w-full border-collapse">
                     <thead>
                         <CourseListRow textFirstCell="Available courses" isHeader={true} />
                         <CourseListRow
@@ -54,7 +29,7 @@ export default function CourseList({ courses = [] }) {
                     </tbody>
                 </table>
             ) : (
-                <table id="CourseList" className={css(styles.courseTable)}>
+                <table id="CourseList" className="w-full border-collapse">
                     <thead>
                         <CourseListRow
                             isHeader={true}
