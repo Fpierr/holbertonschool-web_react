@@ -1,6 +1,11 @@
 @import "tailwindcss";
 
-/* Set Roboto as the default font */
-html, body {
-  font-family: "Roboto", sans-serif;
+@theme {
+  --font-sans: "Roboto", sans-serif;
+}
+
+@layer base {
+  :root {
+    @apply font-sans;
+  }
 }
