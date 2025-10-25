@@ -11,9 +11,9 @@ export default function CourseListRow({
   textFirstCell = '',
   textSecondCell = null,
 }) {
-  const bgColor = isHeader ? 'bg-[var(--color-table-header)]' : 'bg-[var(--color-table-rows)]';
-  const opacity = isHeader ? 'opacity-66' : 'opacity-45';
-  const commonClasses = `border border-gray-400 ${bgColor} ${opacity}`;
+  const bgColor = isHeader ? '[--color-table-header]' : '[--color-table-rows]';
+  const opacity = isHeader ? '[0.66]' : '[0.45]';
+  const commonClasses = `border border-gray-400 bg-${bgColor} opacity-${opacity}`;
   
   return isHeader ? (
     <tr>
