@@ -1,0 +1,44 @@
+:root {
+  --main-color: #e1003c;
+  --default-notification-item: blue;
+  --urgent-notification-item: red;
+  --color-table-header: #deb5b5;
+  --color-table-rows: #cdcdcd;
+  --border-gray: #9ca3af;
+}
+
+/* Les règles existantes pour CourseList peuvent rester */
+.courses {
+  width: 85%;
+  margin: 2rem auto;
+}
+
+#CourseList {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#CourseList thead tr:first-child th {
+  background-color: var(--color-table-header);
+  opacity: 0.66;
+  text-align: center;
+}
+
+#CourseList thead tr:nth-child(2) th {
+  background-color: var(--color-table-header);
+  opacity: 0.66;
+}
+
+#CourseList tbody tr td {
+  background-color: var(--color-table-rows);
+  opacity: 0.45;
+}
+
+#CourseList th,
+#CourseList td {
+  border: 1px solid var(--border-gray);
+}
+
+#CourseList td {
+  padding-left: 8px;
+}
