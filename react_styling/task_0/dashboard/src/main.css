@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
 /* Set Roboto as the default font */
-body {
+html body {
   font-family: "Roboto", sans-serif;
 }
