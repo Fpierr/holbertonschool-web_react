@@ -1,5 +1,5 @@
-import React from 'react';
-import BodySection from './BodySection';
+import React from "react";
+import BodySection from "./BodySection";
 
 function BodySectionWithMarginBottom({ title, children }) {
   return (
