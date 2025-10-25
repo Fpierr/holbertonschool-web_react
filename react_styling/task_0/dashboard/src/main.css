@@ -4,7 +4,9 @@
 @tailwind utilities;
 
 @theme {
-  --font-sans: "Roboto", "ui-sans-serif", "system-ui", sans-serif;
+  --font-sans: "Roboto", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+               Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji",
+               "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
 }
 
 @layer base {
