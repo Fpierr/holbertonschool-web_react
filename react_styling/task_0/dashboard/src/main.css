@@ -1,7 +1,11 @@
 @import "tailwindcss";
 
-@layer theme {
-  :root {
-    --font-sans: Roboto, ui-sans-serif, system-ui, sans-serif;
+@theme {
+  --font-sans: Roboto, ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  * {
+    @apply font-sans;
   }
 }
