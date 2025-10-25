@@ -1,14 +1,11 @@
 @import "tailwindcss";
-@import "@fontsource/roboto/400.css";
-@import "@fontsource/roboto/500.css";
-@import "@fontsource/roboto/700.css";
 
 @theme {
-  --font-family-sans: Roboto, ui-sans-serif, system-ui, sans-serif;
+  --font-sans: Roboto, ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {
-  body {
-    font-family: theme(--font-family-sans);
+  * {
+    font-family: Roboto, ui-sans-serif, system-ui, sans-serif;
   }
 }
