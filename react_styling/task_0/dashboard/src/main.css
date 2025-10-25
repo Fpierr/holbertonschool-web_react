@@ -3,6 +3,10 @@
 @tailwind components;
 @tailwind utilities;
 
+@theme {
+  --font-sans: "Roboto", "ui-sans-serif", "system-ui", sans-serif;
+}
+
 @layer base {
   :root {
     @apply font-sans;
