@@ -1,36 +1,43 @@
-import React from "react";
-import PropTypes from "prop-types";
-
-function CourseList({ courses }) {
-  return (
-    <table className="w-full border-collapse border border-gray-300 text-left mt-4 
-                      max-[520px]:text-sm max-[520px]:w-full">
-      <thead className="bg-gray-100">
-        <tr>
-          <th className="border border-gray-300 p-2">Course name</th>
-          <th className="border border-gray-300 p-2">Credit</th>
-        </tr>
-      </thead>
-      <tbody>
-        {courses.map((course) => (
-          <tr key={course.id} className="hover:bg-gray-50">
-            <td className="border border-gray-300 p-2">{course.name}</td>
-            <td className="border border-gray-300 p-2">{course.credit}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-}
+import PropTypes from 'prop-types';
+import CourseListRow from './CourseListRow';
 
 CourseList.propTypes = {
-  courses: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-      credit: PropTypes.number.isRequired,
-    })
-  ).isRequired,
+    courses: PropTypes.array.isRequired,
 };
 
-export default CourseList;
+export default function CourseList({ courses = [] }) {
+    return (
+        <div className="mx-auto my-8 w-[80%] md:w-[85%] lg:w-[90%] max-[912px]:w-full max-[912px]:my-4">
+            {courses.length > 0 ? (
+                <table id="CourseList" className="w-full border-collapse max-[912px]:text-sm">
+                    <thead>
+                        <CourseListRow textFirstCell="Available courses" isHeader={true} />
+                        <CourseListRow
+                            textFirstCell="Course name"
+                            textSecondCell="Credit"
+                            isHeader={true}
+                        />
+                    </thead>
+                    <tbody>
+                        {courses.map((course) => (
+                            <CourseListRow
+                                key={course.id}
+                                textFirstCell={course.name}
+                                textSecondCell={course.credit}
+                            />
+                        ))}
+                    </tbody>
+                </table>
+            ) : (
+                <table id="CourseList" className="w-full border-collapse max-[912px]:text-sm">
+                    <thead>
+                        <CourseListRow
+                            isHeader={true}
+                            textFirstCell="No course available yet"
+                        />
+                    </thead>
+                </table>
+            )}
+        </div>
+    );
+}
