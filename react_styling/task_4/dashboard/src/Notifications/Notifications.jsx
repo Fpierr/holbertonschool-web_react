@@ -21,12 +21,10 @@ class Notifications extends Component {
 
         return (
             <>
-                <div className="text-right pr-8 pt-2 max-[912px]:hidden">Your notifications</div>
+                <div className="text-right pr-8 pt-2">Your notifications</div>
                 {displayDrawer ? (
                     <div 
-                        className="border-2 border-dashed bg-white p-6 relative float-right mr-8 mt-2 max-w-4xl
-                                   max-[912px]:fixed max-[912px]:inset-0 max-[912px]:z-50 max-[912px]:m-0 max-[912px]:max-w-none 
-                                   max-[912px]:border-0 max-[912px]:p-4"
+                        className="border-2 border-dashed bg-white p-6 relative float-right mr-8 mt-2 max-w-4xl"
                         style={borderStyle}
                     >
                         <button
@@ -39,8 +37,8 @@ class Notifications extends Component {
                         
                         {notifications.length > 0 ? (
                             <>
-                                <p className="font-bold mb-3 max-[912px]:text-lg">Here is the list of notifications</p>
-                                <ul className="list-disc pl-6 space-y-1 max-[912px]:list-none max-[912px]:pl-0 max-[912px]:space-y-0">
+                                <p className="font-bold mb-3">Here is the list of notifications</p>
+                                <ul className="list-disc pl-6 space-y-1">
                                     {notifications.map((notification) => (
                                         <NotificationItem
                                             key={notification.id}
@@ -53,7 +51,7 @@ class Notifications extends Component {
                                 </ul>
                             </>
                         ) : (
-                            <p className="text-center max-[912px]:text-left">No new notification for now</p>
+                            <p className="text-center">No new notification for now</p>
                         )}
                     </div>
                 ) : null}

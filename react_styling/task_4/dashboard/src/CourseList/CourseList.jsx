@@ -7,9 +7,9 @@ CourseList.propTypes = {
 
 export default function CourseList({ courses = [] }) {
     return (
-        <div className="mx-auto my-8 w-[80%] md:w-[85%] lg:w-[90%] max-[912px]:w-full max-[912px]:my-4">
+        <div className="mx-auto my-32 w-[80%] md:w-[85%] lg:w-[90%]">
             {courses.length > 0 ? (
-                <table id="CourseList" className="w-full border-collapse max-[912px]:text-sm">
+                <table id="CourseList" className="w-full border-collapse">
                     <thead>
                         <CourseListRow textFirstCell="Available courses" isHeader={true} />
                         <CourseListRow
@@ -29,7 +29,7 @@ export default function CourseList({ courses = [] }) {
                     </tbody>
                 </table>
             ) : (
-                <table id="CourseList" className="w-full border-collapse max-[912px]:text-sm">
+                <table id="CourseList" className="w-full border-collapse">
                     <thead>
                         <CourseListRow
                             isHeader={true}

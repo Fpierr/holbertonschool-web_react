@@ -17,8 +17,6 @@ class NotificationItem extends PureComponent {
                 data-notification-type={type}
                 dangerouslySetInnerHTML={type === 'urgent' && html !== undefined ? html : undefined}
                 onClick={markAsRead}
-                className="max-[912px]:border-b max-[912px]:border-gray-300 max-[912px]:py-3 max-[912px]:px-2 
-                           max-[912px]:text-base"
             >
                 {type === 'urgent' && html !== undefined ? null : value}
             </li>
