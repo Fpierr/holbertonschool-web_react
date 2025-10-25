@@ -1,8 +1,6 @@
-
 import { Component } from 'react';
 import closeIcon from '../assets/close-button.png';
 import NotificationItem from './NotificationItem';
-import { StyleSheet, css } from 'aphrodite';
 import PropTypes from 'prop-types';
 
 class Notifications extends Component {
@@ -17,22 +15,30 @@ class Notifications extends Component {
     render() {
         const { notifications = [], displayDrawer = true } = this.props;
 
+        const borderStyle = {
+            borderColor: 'var(--main-color)',
+        };
+
         return (
             <>
-                <div className={css(styles.menuItem)}>Your notifications</div>
+                <div className="text-right pr-8 pt-2">Your notifications</div>
                 {displayDrawer ? (
-                    <div className={css(styles.notifications)}>
+                    <div 
+                        className="border-2 border-dashed bg-white p-6 relative float-right mr-8 mt-2 max-w-4xl"
+                        style={borderStyle}
+                    >
+                        <button
+                            onClick={() => console.log('Close button has been clicked')}
+                            aria-label="Close"
+                            className="absolute cursor-pointer right-3 top-3 bg-transparent border-none p-0"
+                        >
+                            <img src={closeIcon} alt="close icon" className="w-5 h-5" />
+                        </button>
+                        
                         {notifications.length > 0 ? (
                             <>
-                                <p>Here is the list of notifications</p>
-                                <button
-                                    onClick={() => console.log('Close button has been clicked')}
-                                    aria-label="Close"
-                                    className={css(styles.closeButton)}
-                                >
-                                    <img src={closeIcon} alt="close icon" />
-                                </button>
-                                <ul>
+                                <p className="font-bold mb-3">Here is the list of notifications</p>
+                                <ul className="list-disc pl-6 space-y-1">
                                     {notifications.map((notification) => (
                                         <NotificationItem
                                             key={notification.id}
@@ -45,7 +51,7 @@ class Notifications extends Component {
                                 </ul>
                             </>
                         ) : (
-                            <p>No new notification for now</p>
+                            <p className="text-center">No new notification for now</p>
                         )}
                     </div>
                 ) : null}
@@ -53,38 +59,6 @@ class Notifications extends Component {
         );
     }
 }
-
-const styles = StyleSheet.create({
-    menuItem: {
-        textAlign: 'right',
-    },
-    notifications: {
-        border: 'dotted crimson',
-        marginTop: '1%',
-        paddingLeft: '1rem',
-        marginBottom: '1rem',
-        width: '40%',
-        marginLeft: '59%',
-        position: 'relative',
-    },
-    closeButton: {
-        position: 'absolute',
-        cursor: 'pointer',
-        right: '5px',
-        top: '20px',
-        background: 'transparent',
-        border: 'none',
-        // float: right,
-        fontSize: '2px',
-
-    },
-    notificationTitle: {
-        float: 'right',
-        position: 'absolute',
-        right: '10px',
-        top: '2px',
-    },
-});
 
 Notifications.propTypes = {
     notifications: PropTypes.arrayOf(

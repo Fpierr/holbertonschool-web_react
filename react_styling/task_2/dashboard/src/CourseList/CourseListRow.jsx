@@ -11,19 +11,44 @@ export default function CourseListRow({
   textFirstCell = '',
   textSecondCell = null,
 }) {
-  const style = isHeader
+  const cellStyle = isHeader 
     ? { backgroundColor: 'var(--color-table-header)', opacity: 0.66 }
     : { backgroundColor: 'var(--color-table-rows)', opacity: 0.45 };
-
+  
+  const cellClasses = 'border border-gray-400';
+  
   return isHeader ? (
-    <tr style={style}>
-      <th colSpan={textSecondCell ? 1 : 2}>{textFirstCell}</th>
-      {textSecondCell ? <th>{textSecondCell}</th> : null}
+    <tr>
+      <th 
+        colSpan={textSecondCell ? 1 : 2}
+        className={cellClasses}
+        style={cellStyle}
+      >
+        {textFirstCell}
+      </th>
+      {textSecondCell ? (
+        <th 
+          className={cellClasses}
+          style={cellStyle}
+        >
+          {textSecondCell}
+        </th>
+      ) : null}
     </tr>
   ) : (
-    <tr style={style}>
-      <td>{textFirstCell}</td>
-      <td>{textSecondCell}</td>
+    <tr>
+      <td 
+        className={`${cellClasses} pl-2`}
+        style={cellStyle}
+      >
+        {textFirstCell}
+      </td>
+      <td 
+        className={`${cellClasses} pl-2`}
+        style={cellStyle}
+      >
+        {textSecondCell}
+      </td>
     </tr>
   );
 }
