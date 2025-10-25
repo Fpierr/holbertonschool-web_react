@@ -11,14 +11,11 @@ export default function CourseListRow({
   textFirstCell = '',
   textSecondCell = null,
 }) {
-  const bgColorClass = isHeader 
-    ? 'bg-[var(--color-table-header)]' 
-    : 'bg-[var(--color-table-rows)]';
+  const cellStyle = isHeader 
+    ? { backgroundColor: 'var(--color-table-header)', opacity: 0.66 }
+    : { backgroundColor: 'var(--color-table-rows)', opacity: 0.45 };
   
-  const opacityValue = isHeader ? 0.66 : 0.45;
-  
-  const cellClasses = `border border-gray-400 ${bgColorClass}`;
-  const cellStyle = { opacity: opacityValue };
+  const cellClasses = 'border border-gray-400';
   
   return isHeader ? (
     <tr>
