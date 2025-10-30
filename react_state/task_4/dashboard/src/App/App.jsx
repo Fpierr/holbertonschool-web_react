@@ -93,7 +93,9 @@ class App extends Component {
             displayDrawer={displayDrawer}
             handleDisplayDrawer={this.handleDisplayDrawer}
             handleHideDrawer={this.handleHideDrawer}
-            markNotificationAsRead={this.markNotificationAsRead}
+            // markNotificationAsRead={this.markNotificationAsRead}
+            markNotificationAsRead={(id) => this.markNotificationAsRead(id)}
+
           />
           <>
             <Header />
