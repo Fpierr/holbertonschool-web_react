@@ -5,9 +5,8 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      password: "",
-      isLoggedIn: false,
+      email: props.email || "",
+      password: props.password || "",
       enableSubmit: false,
     };
 
@@ -19,8 +18,12 @@ class Login extends React.Component {
 
   handleLoginSubmit(e) {
     e.preventDefault();
-    this.setState({ isLoggedIn: true });
-    console.log("Login submitted");
+    const { logIn } = this.props;
+    const { email, password } = this.state;
+
+    if (logIn) {
+      logIn(email, password);
+    }
   }
 
   handleChangeEmail(e) {

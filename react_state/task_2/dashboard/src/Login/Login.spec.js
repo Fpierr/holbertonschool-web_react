@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { expect, test } from "@jest/globals";
+import { expect, test, jest } from "@jest/globals";
 import Login from "./Login.jsx";
 
 test("renders 2 input elements (email and password)", () => {
@@ -32,4 +32,23 @@ test("submit button enables when email and password are valid", () => {
   fireEvent.change(passwordInput, { target: { value: "12345678" } });
 
   expect(submitButton).toBeEnabled();
+});
+
+test("calls logIn with email and password when form is submitted", () => {
+  const mockLogIn = jest.fn();
+
+  render(<Login logIn={mockLogIn} />);
+  const emailInput = screen.getByLabelText(/email/i);
+  const passwordInput = screen.getByLabelText(/password/i);
+  const submitButton = screen.getByRole("button", { name: /ok/i });
+
+  // Simulate user input
+  fireEvent.change(emailInput, { target: { value: "user@test.com" } });
+  fireEvent.change(passwordInput, { target: { value: "password123" } });
+
+  // Submit form
+  fireEvent.click(submitButton);
+
+  // Check that logIn was called correctly
+  expect(mockLogIn).toHaveBeenCalledWith("user@test.com", "password123");
 });
