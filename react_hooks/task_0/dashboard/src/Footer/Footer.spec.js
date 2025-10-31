@@ -14,18 +14,24 @@ test("renders copyright text", () => {
   expect(footerText).toBeInTheDocument();
 });
 
-test('does not display "Contact us" when user is logged out', () => {
+test('displays "Contact us" when user is logged out', () => {
+  const loggedOutUser = {
+    email: "",
+    password: "",
+    isLoggedIn: false,
+  };
+
   render(
-    <newContext.Provider value={{ user: defaultUser, logOut: jest.fn() }}>
+    <newContext.Provider value={{ user: loggedOutUser, logOut: jest.fn() }}>
       <Footer />
     </newContext.Provider>
   );
 
-  const contactLink = screen.queryByText(/Contact us/i);
-  expect(contactLink).not.toBeInTheDocument();
+  const contactLink = screen.getByText(/Contact us/i);
+  expect(contactLink).toBeInTheDocument();
 });
 
-test('displays "Contact us" when user is logged in', () => {
+test('displays welcome message when user is logged in', () => {
   const loggedInUser = {
     email: "user@test.com",
     password: "password123",
@@ -38,6 +44,9 @@ test('displays "Contact us" when user is logged in', () => {
     </newContext.Provider>
   );
 
-  const contactLink = screen.getByText(/Contact us/i);
-  expect(contactLink).toBeInTheDocument();
+  const welcomeMessage = screen.getByText(/Welcome user@test.com/i);
+  const logoutLink = screen.getByText(/Logout/i);
+
+  expect(welcomeMessage).toBeInTheDocument();
+  expect(logoutLink).toBeInTheDocument();
 });
