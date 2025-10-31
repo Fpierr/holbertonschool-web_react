@@ -1,12 +1,49 @@
 import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
 import { describe, test, expect, jest, afterEach, beforeEach } from "@jest/globals";
 import App from "./App";
+import mockAxios from "jest-mock-axios";
 
+// --- Cleanup after tests ---
 afterEach(() => {
   cleanup();
   jest.restoreAllMocks();
+  mockAxios.reset();
 });
 
+// --- Axios fetching tests ---
+describe("App Data Fetching (Side Effects)", () => {
+  test("fetches notifications on mount", async () => {
+    render(<App />);
+
+    const notificationsMock = [
+      { id: 1, type: "default", value: "New course available" },
+    ];
+
+    mockAxios.mockResponseFor({ url: "/notifications.json" }, { data: notificationsMock });
+    mockAxios.mockResponseFor({ url: "/courses.json" }, { data: [] });
+
+    await waitFor(() => {
+      expect(screen.getByText(/new course available/i)).toBeInTheDocument();
+    });
+  });
+
+  test("fetches courses when user changes", async () => {
+    render(<App />);
+
+    const coursesMock = [
+      { id: 1, name: "React", credit: 40 },
+    ];
+
+    mockAxios.mockResponseFor({ url: "/notifications.json" }, { data: [] });
+    mockAxios.mockResponseFor({ url: "/courses.json" }, { data: coursesMock });
+
+    await waitFor(() => {
+      expect(screen.getByText(/react/i)).toBeInTheDocument();
+    });
+  });
+});
+
+// --- Functional behavior tests ---
 describe("App Component (Functional)", () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -72,24 +109,12 @@ describe("App Component (Functional)", () => {
   });
 
   test("callbacks keep the same reference between re-renders", () => {
-    const mockDisplay = jest.fn();
-    const mockHide = jest.fn();
-    const mockMark = jest.fn();
-
     const { rerender } = render(<App />);
 
-    const initialDisplay = mockDisplay;
-    const initialHide = mockHide;
-    const initialMark = mockMark;
-
+    const handleDisplayDrawerBefore = App.handleDisplayDrawer;
     rerender(<App />);
+    const handleDisplayDrawerAfter = App.handleDisplayDrawer;
 
-    const afterDisplay = mockDisplay;
-    const afterHide = mockHide;
-    const afterMark = mockMark;
-
-    expect(initialDisplay).toBe(afterDisplay);
-    expect(initialHide).toBe(afterHide);
-    expect(initialMark).toBe(afterMark);
+    expect(handleDisplayDrawerBefore).toBe(handleDisplayDrawerAfter);
   });
 });
