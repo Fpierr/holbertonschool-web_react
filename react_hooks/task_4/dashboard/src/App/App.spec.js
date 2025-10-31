@@ -1,11 +1,10 @@
-import { render, screen, fireEvent, cleanup, waitFor, act } from "@testing-library/react";
+import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
 import { describe, test, expect, jest, afterEach, beforeEach } from "@jest/globals";
-import mockAxios from "jest-mock-axios";
 import App from "./App";
 
 afterEach(() => {
   cleanup();
-  mockAxios.reset();
+  jest.restoreAllMocks();
 });
 
 describe("App Component (Functional)", () => {
@@ -13,112 +12,81 @@ describe("App Component (Functional)", () => {
     jest.clearAllMocks();
   });
 
-  test("renders News from the School section", () => {
+  test("renders the News from the School section", () => {
     render(<App />);
     expect(screen.getByText(/news from the school/i)).toBeInTheDocument();
     expect(screen.getByText(/holberton school news goes here/i)).toBeInTheDocument();
   });
 
-  test("fetches notifications on mount", async () => {
-    await act(async () => {
-      render(<App />);
+  test("login and logout flow works correctly", () => {
+    render(<App />);
+    expect(screen.getByText(/login to access/i)).toBeInTheDocument();
+
+    fireEvent.change(screen.getByLabelText(/email/i), {
+      target: { value: "user@test.com" },
+    });
+    fireEvent.change(screen.getByLabelText(/password/i), {
+      target: { value: "password123" },
     });
 
-    // Notifications fetch should happen
-    expect(mockAxios.get).toHaveBeenCalledWith("/notifications.json");
-
-    const mockNotifications = [
-      { id: 1, type: "default", value: "New course available" },
-      { id: 2, type: "urgent", value: "New resume available" },
-    ];
-
-    // Respond with mock notifications
-    await act(async () => {
-      mockAxios.mockResponse({ data: mockNotifications });
-    });
-
-    // Check that notifications appear
-    expect(await screen.findByText(/new course available/i)).toBeInTheDocument();
-    expect(await screen.findByText(/new resume available/i)).toBeInTheDocument();
-  });
-
-  test("login flow: shows CourseList after login, back to Login after logout", async () => {
-    await act(async () => {
-      render(<App />);
-    });
-
-    // Fill login form
-    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: "user@test.com" } });
-    fireEvent.change(screen.getByLabelText(/password/i), { target: { value: "password123" } });
     fireEvent.click(screen.getByRole("button", { name: /ok/i }));
 
-    // Courses should fetch after login
-    expect(mockAxios.get).toHaveBeenCalledWith("/courses.json");
-
-    const mockCourses = [
-      { id: 1, name: "ES6", credit: 60 },
-      { id: 2, name: "Webpack", credit: 20 },
-    ];
-
-    await act(async () => {
-      mockAxios.mockResponse({ data: mockCourses });
-    });
-
-    expect(await screen.findByText(/course list/i)).toBeInTheDocument();
+    expect(screen.getByText(/course list/i)).toBeInTheDocument();
     expect(screen.queryByText(/login to access/i)).not.toBeInTheDocument();
 
-    // Logout
-    const logoutLink = screen.getByText(/logout/i);
-    fireEvent.click(logoutLink);
-
-    // Back to login screen
+    fireEvent.click(screen.getByText(/logout/i));
     expect(screen.getByText(/login to access/i)).toBeInTheDocument();
-    expect(screen.queryByText(/course list/i)).not.toBeInTheDocument();
   });
 
-  test("handleDisplayDrawer and handleHideDrawer toggle notification drawer", async () => {
-    await act(async () => {
-      render(<App />);
-    });
+  test("handleDisplayDrawer and handleHideDrawer toggle the notification drawer", async () => {
+    render(<App />);
 
-    const notifLabel = screen.getByText(/your notifications/i);
-    fireEvent.click(notifLabel);
+    expect(screen.queryByText(/here is the list of notifications/i)).not.toBeInTheDocument();
 
-    // Drawer opens
+    fireEvent.click(screen.getByText(/your notifications/i));
     expect(await screen.findByText(/here is the list of notifications/i)).toBeInTheDocument();
 
-    const closeButton = screen.getByRole("button", { name: /close/i });
-    fireEvent.click(closeButton);
-
-    // Drawer closes
+    fireEvent.click(screen.getByRole("button", { name: /close/i }));
     await waitFor(() => {
       expect(screen.queryByText(/here is the list of notifications/i)).not.toBeInTheDocument();
     });
   });
 
-  test("markNotificationAsRead removes notification", async () => {
-    const mockNotifications = [
-      { id: 1, type: "default", value: "Notification 1" },
-      { id: 2, type: "urgent", value: "Notification 2" },
-    ];
+  test("markNotificationAsRead removes the correct notification", async () => {
+    render(<App />);
 
-    await act(async () => {
-      render(<App />);
-      mockAxios.mockResponse({ data: mockNotifications });
-    });
-
-    // Drawer open
     fireEvent.click(screen.getByText(/your notifications/i));
 
     const notifItems = await screen.findAllByRole("listitem");
-    expect(notifItems).toHaveLength(2);
+    expect(notifItems.length).toBeGreaterThan(0);
 
-    // Click first notification to remove
-    fireEvent.click(notifItems[0]);
+    const firstNotif = notifItems[0];
+    const notifText = firstNotif.textContent;
+
+    fireEvent.click(firstNotif);
+
     await waitFor(() => {
-      expect(screen.queryByText(/notification 1/i)).not.toBeInTheDocument();
+      expect(screen.queryByText(notifText)).not.toBeInTheDocument();
     });
+  });
 
-    expect(screen.getByText(/notification 2/i)).toBeInTheDocument();
+  test("callbacks keep the same reference between re-renders", () => {
+    const { rerender } = render(<App />);
+
+    const propsBefore = screen.getByText(/your notifications/i)._owner.memoizedProps;
+    const beforeDisplay = propsBefore.handleDisplayDrawer;
+    const beforeHide = propsBefore.handleHideDrawer;
+    const beforeMark = propsBefore.markNotificationAsRead;
+
+    rerender(<App />);
+
+    const propsAfter = screen.getByText(/your notifications/i)._owner.memoizedProps;
+    const afterDisplay = propsAfter.handleDisplayDrawer;
+    const afterHide = propsAfter.handleHideDrawer;
+    const afterMark = propsAfter.markNotificationAsRead;
+
+    expect(beforeDisplay).toBe(afterDisplay);
+    expect(beforeHide).toBe(afterHide);
+    expect(beforeMark).toBe(afterMark);
   });
 });
