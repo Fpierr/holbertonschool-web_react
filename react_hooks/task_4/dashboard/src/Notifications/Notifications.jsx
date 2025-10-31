@@ -8,20 +8,13 @@ function Notifications({
   displayDrawer = true,
   handleDisplayDrawer,
   handleHideDrawer,
+  markNotificationAsRead, // <-- receive from parent
 }) {
   // --- Styles ---
-  const borderStyle = {
-    borderColor: "var(--main-color)",
-  };
-
+  const borderStyle = { borderColor: "var(--main-color)" };
   const titleClassName = `text-right pr-8 pt-2 ${
     notifications.length > 0 && !displayDrawer ? "animate-bounce" : ""
   }`;
-
-  // --- Handlers ---
-  const markNotificationAsRead = (id) => {
-    console.log(`Notification ${id} has been marked as read`);
-  };
 
   return (
     <>
@@ -38,10 +31,7 @@ function Notifications({
           style={borderStyle}
         >
           <button
-            onClick={() => {
-              console.log("Close button has been clicked");
-              handleHideDrawer();
-            }}
+            onClick={handleHideDrawer}
             aria-label="Close"
             className="absolute cursor-pointer right-3 top-3 bg-transparent border-none p-0"
           >
@@ -60,7 +50,8 @@ function Notifications({
                     type={notification.type}
                     value={notification.value}
                     html={notification.html}
-                    markAsRead={() => markNotificationAsRead(notification.id)}
+                    markAsRead={() => markNotificationAsRead(notification.id)} 
+                    // still an inline arrow, but parent function is memoized
                   />
                 ))}
               </ul>
@@ -86,11 +77,14 @@ Notifications.propTypes = {
   displayDrawer: PropTypes.bool.isRequired,
   handleDisplayDrawer: PropTypes.func.isRequired,
   handleHideDrawer: PropTypes.func.isRequired,
+  markNotificationAsRead: PropTypes.func.isRequired, // added prop type
 };
 
 const areEqual = (prevProps, nextProps) => {
-  return prevProps.notifications.length === nextProps.notifications.length &&
-         prevProps.displayDrawer === nextProps.displayDrawer;
+  return (
+    prevProps.notifications.length === nextProps.notifications.length &&
+    prevProps.displayDrawer === nextProps.displayDrawer
+  );
 };
 
 export default memo(Notifications, areEqual);

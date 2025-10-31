@@ -11,20 +11,15 @@ import newContext, { user as defaultUser } from "../Context/context";
 import axios from "axios";
 
 function App() {
-  // === 1. STATE INITIALIZATION ===
+  // --- STATE ---
   const [displayDrawer, setDisplayDrawer] = useState(true);
   const [user, setUser] = useState(defaultUser);
   const [notifications, setNotifications] = useState([]);
   const [courses, setCourses] = useState([]);
 
-  // === 2. HANDLERS (memoized) ===
-  const handleDisplayDrawer = useCallback(() => {
-    setDisplayDrawer(true);
-  }, []);
-
-  const handleHideDrawer = useCallback(() => {
-    setDisplayDrawer(false);
-  }, []);
+  // --- HANDLERS (memoized) ---
+  const handleDisplayDrawer = useCallback(() => setDisplayDrawer(true), []);
+  const handleHideDrawer = useCallback(() => setDisplayDrawer(false), []);
 
   const logIn = useCallback((email, password) => {
     setUser({ email, password, isLoggedIn: true });
@@ -34,11 +29,12 @@ function App() {
     setUser({ email: "", password: "", isLoggedIn: false });
   }, []);
 
-  const markNotificationAsRead = useCallback((id) => {
-    setNotifications((prev) => prev.filter((n) => n.id !== id));
-  }, []);
+  const markNotificationAsRead = useCallback(
+    (id) => setNotifications((prev) => prev.filter((n) => n.id !== id)),
+    []
+  );
 
-  // === 3. FETCH NOTIFICATIONS ON MOUNT ===
+  // --- FETCH NOTIFICATIONS ON MOUNT ---
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
@@ -49,35 +45,36 @@ function App() {
             : notif
         );
         setNotifications(data);
-      } catch (error) {
+      } catch (err) {
         if (process.env.NODE_ENV === "development") {
-          console.error("Error fetching notifications:", error);
+          console.error("Error fetching notifications:", err);
         }
       }
     };
     fetchNotifications();
   }, []);
 
-  // === 4. FETCH COURSES WHEN USER LOGS IN ===
+  // --- FETCH COURSES WHEN USER LOGS IN ---
   useEffect(() => {
-    if (user.isLoggedIn) {
-      const fetchCourses = async () => {
-        try {
-          const res = await axios.get("/courses.json");
-          setCourses(res.data);
-        } catch (error) {
-          if (process.env.NODE_ENV === "development") {
-            console.error("Error fetching courses:", error);
-          }
-        }
-      };
-      fetchCourses();
-    } else {
-      setCourses([]); // reset courses on logout
+    if (!user.isLoggedIn) {
+      setCourses([]);
+      return;
     }
+
+    const fetchCourses = async () => {
+      try {
+        const res = await axios.get("/courses.json");
+        setCourses(res.data);
+      } catch (err) {
+        if (process.env.NODE_ENV === "development") {
+          console.error("Error fetching courses:", err);
+        }
+      }
+    };
+    fetchCourses();
   }, [user]);
 
-  // === 5. RENDER ===
+  // --- RENDER ---
   return (
     <newContext.Provider value={{ user, logOut }}>
       <>
