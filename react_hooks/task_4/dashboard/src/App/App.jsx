@@ -46,7 +46,10 @@ function App() {
     setNotifications((prev) => prev.filter((n) => n.id !== id));
   }, []);
 
-  const contextValue = useMemo(() => ({ user, logOut }), [user, logOut]);
+  const contextValue = useMemo(
+    () => ({ user, logOut, logIn }),
+    [user, logOut, logIn]
+  );
 
   return (
     <newContext.Provider value={contextValue}>
