@@ -3,27 +3,40 @@ import { describe, test, expect, jest, afterEach, beforeEach } from "@jest/globa
 import App from "./App";
 import mockAxios from "jest-mock-axios";
 
-// --- Cleanup after tests ---
+/**
+ * Global cleanup between tests
+ */
 afterEach(() => {
   cleanup();
   jest.restoreAllMocks();
   mockAxios.reset();
 });
 
-// --- Axios fetching tests ---
+/* -------------------------------------------------------------------------- */
+/*                         FETCHING SIDE EFFECT TESTS                         */
+/* -------------------------------------------------------------------------- */
 describe("App Data Fetching (Side Effects)", () => {
   test("fetches notifications on mount", async () => {
     render(<App />);
 
     const notificationsMock = [
       { id: 1, type: "default", value: "New course available" },
+      { id: 2, type: "urgent", value: "New resume available" },
     ];
 
-    mockAxios.mockResponseFor({ url: "/notifications.json" }, { data: notificationsMock });
-    mockAxios.mockResponseFor({ url: "/courses.json" }, { data: [] });
+    // Simulate responses from mockAxios
+    mockAxios.mockResponseFor(
+      { url: "http://localhost:5173/notifications.json" },
+      { data: notificationsMock }
+    );
+    mockAxios.mockResponseFor(
+      { url: "http://localhost:5173/courses.json" },
+      { data: [] }
+    );
 
     await waitFor(() => {
       expect(screen.getByText(/new course available/i)).toBeInTheDocument();
+      expect(screen.getByText(/new resume available/i)).toBeInTheDocument();
     });
   });
 
@@ -32,18 +45,31 @@ describe("App Data Fetching (Side Effects)", () => {
 
     const coursesMock = [
       { id: 1, name: "React", credit: 40 },
+      { id: 2, name: "Webpack", credit: 20 },
     ];
 
-    mockAxios.mockResponseFor({ url: "/notifications.json" }, { data: [] });
-    mockAxios.mockResponseFor({ url: "/courses.json" }, { data: coursesMock });
+    // mock initial notifications request
+    mockAxios.mockResponseFor(
+      { url: "http://localhost:5173/notifications.json" },
+      { data: [] }
+    );
+
+    // mock courses request after login
+    mockAxios.mockResponseFor(
+      { url: "http://localhost:5173/courses.json" },
+      { data: coursesMock }
+    );
 
     await waitFor(() => {
       expect(screen.getByText(/react/i)).toBeInTheDocument();
+      expect(screen.getByText(/webpack/i)).toBeInTheDocument();
     });
   });
 });
 
-// --- Functional behavior tests ---
+/* -------------------------------------------------------------------------- */
+/*                          FUNCTIONAL BEHAVIOR TESTS                         */
+/* -------------------------------------------------------------------------- */
 describe("App Component (Functional)", () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -55,7 +81,7 @@ describe("App Component (Functional)", () => {
     expect(screen.getByText(/holberton school news goes here/i)).toBeInTheDocument();
   });
 
-  test("login and logout flow works correctly", () => {
+  test("login and logout flow works correctly", async () => {
     render(<App />);
 
     expect(screen.getByText(/log in to continue/i)).toBeInTheDocument();
@@ -69,9 +95,13 @@ describe("App Component (Functional)", () => {
 
     fireEvent.click(screen.getByRole("button", { name: /ok/i }));
 
-    expect(screen.getByText(/course list/i)).toBeInTheDocument();
+    // After login, should show course list
+    await waitFor(() => {
+      expect(screen.getByText(/course list/i)).toBeInTheDocument();
+    });
     expect(screen.queryByText(/log in to continue/i)).not.toBeInTheDocument();
 
+    // Click logout
     fireEvent.click(screen.getAllByText(/logout/i)[0]);
     expect(screen.getByText(/log in to continue/i)).toBeInTheDocument();
   });
@@ -83,7 +113,9 @@ describe("App Component (Functional)", () => {
 
     fireEvent.click(screen.getByRole("button", { name: /close/i }));
     await waitFor(() => {
-      expect(screen.queryByText(/here is the list of notifications/i)).not.toBeInTheDocument();
+      expect(
+        screen.queryByText(/here is the list of notifications/i)
+      ).not.toBeInTheDocument();
     });
 
     fireEvent.click(screen.getByText(/your notifications/i));

@@ -16,12 +16,13 @@ function App() {
   const [notifications, setNotifications] = useState([]);
   const [courses, setCourses] = useState([]);
 
-  // --- Fetch notifications on first render ---
+  /** 🔹 Fetch notifications on mount */
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const res = await axios.get("/notifications.json");
-        // maintain getLatestNotification() logic
+        const res = await axios.get("http://localhost:5173/notifications.json");
+
+        // keep getLatestNotification() behavior
         const data = res.data.map((n) =>
           n.html && n.html.__html
             ? { ...n, html: { __html: getLatestNotification() } }
@@ -34,14 +35,15 @@ function App() {
         }
       }
     };
+
     fetchNotifications();
   }, []);
 
-  // --- Fetch courses when user state changes ---
+  /** 🔹 Fetch courses whenever user changes (login/logout) */
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const res = await axios.get("/courses.json");
+        const res = await axios.get("http://localhost:5173/courses.json");
         setCourses(res.data);
       } catch (error) {
         if (process.env.NODE_ENV === "development") {
@@ -49,27 +51,30 @@ function App() {
         }
       }
     };
-    // only fetch if user changes (login/logout)
+
     fetchCourses();
   }, [user]);
 
+  /** 🔹 Handlers */
   const handleDisplayDrawer = useCallback(() => setDisplayDrawer(true), []);
   const handleHideDrawer = useCallback(() => setDisplayDrawer(false), []);
-
   const logIn = useCallback((email, password) => {
     setUser({ email, password, isLoggedIn: true });
   }, []);
-
   const logOut = useCallback(() => {
     setUser({ email: "", password: "", isLoggedIn: false });
   }, []);
-
   const markNotificationAsRead = useCallback((id) => {
     setNotifications((prev) => prev.filter((n) => n.id !== id));
   }, []);
 
-  const contextValue = useMemo(() => ({ user, logOut, logIn }), [user, logOut, logIn]);
+  /** 🔹 Context value memoized */
+  const contextValue = useMemo(
+    () => ({ user, logOut, logIn }),
+    [user, logOut, logIn]
+  );
 
+  /** 🔹 Render */
   return (
     <newContext.Provider value={contextValue}>
       <>
