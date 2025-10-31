@@ -4,6 +4,7 @@ import NotificationItem from "./NotificationItem.jsx";
 import { getLatestNotification } from "../utils/utils.js";
 
 describe("NotificationItem Component", () => {
+
   test("renders without crashing", () => {
     const mockMarkAsRead = jest.fn();
     render(<NotificationItem id={1} markAsRead={mockMarkAsRead} />);
@@ -11,9 +12,24 @@ describe("NotificationItem Component", () => {
     expect(item).toBeInTheDocument();
   });
 
-  test('renders correctly with type="urgent" and html content', () => {
+  test('renders correctly with type="default" and text value', () => {
     const props = {
       id: 2,
+      type: "default",
+      value: "Default notification",
+      markAsRead: jest.fn(),
+    };
+
+    render(<NotificationItem {...props} />);
+    const li = screen.getByText("Default notification");
+
+    expect(li).toHaveAttribute("data-notification-type", "default");
+    expect(li).toHaveStyle({ color: "var(--default-notification-item)" });
+  });
+
+  test('renders correctly with type="urgent" and HTML content', () => {
+    const props = {
+      id: 3,
       type: "urgent",
       html: { __html: getLatestNotification() },
       markAsRead: jest.fn(),
@@ -23,26 +39,9 @@ describe("NotificationItem Component", () => {
     const li = screen.getByTestId("notification-item");
 
     expect(li).toHaveAttribute("data-notification-type", "urgent");
-    expect(li.style.color).toContain("red");
+    expect(li).toHaveStyle({ color: "var(--urgent-notification-item)" });
     expect(li.innerHTML).toContain("Urgent requirement");
   });
-
-  test('renders correctly with type="urgent" and html content', () => {
-  const props = {
-    id: 2,
-    type: "urgent",
-    html: { __html: getLatestNotification() },
-    markAsRead: jest.fn(),
-  };
-
-  render(<NotificationItem {...props} />);
-  const li = screen.getByTestId("notification-item");
-
-  expect(li).toHaveAttribute("data-notification-type", "urgent");
-  expect(li).toHaveStyle({ color: "rgb(255, 0, 0)" });
-  expect(li.innerHTML).toContain("Urgent requirement");
-});
-
 
   test("calls markAsRead with the correct id when clicked", () => {
     const mockMarkAsRead = jest.fn();
@@ -59,4 +58,5 @@ describe("NotificationItem Component", () => {
     fireEvent.click(li);
     expect(mockMarkAsRead).toHaveBeenCalledWith(4);
   });
+
 });

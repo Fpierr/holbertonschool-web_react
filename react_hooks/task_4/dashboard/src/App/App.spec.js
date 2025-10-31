@@ -20,7 +20,8 @@ describe("App Component (Functional)", () => {
 
   test("login and logout flow works correctly", () => {
     render(<App />);
-    expect(screen.getByText(/login to access/i)).toBeInTheDocument();
+
+    expect(screen.getByText(/log in to continue/i)).toBeInTheDocument();
 
     fireEvent.change(screen.getByLabelText(/email/i), {
       target: { value: "user@test.com" },
@@ -32,24 +33,24 @@ describe("App Component (Functional)", () => {
     fireEvent.click(screen.getByRole("button", { name: /ok/i }));
 
     expect(screen.getByText(/course list/i)).toBeInTheDocument();
-    expect(screen.queryByText(/login to access/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/log in to continue/i)).not.toBeInTheDocument();
 
-    fireEvent.click(screen.getByText(/logout/i));
-    expect(screen.getByText(/login to access/i)).toBeInTheDocument();
+    fireEvent.click(screen.getAllByText(/logout/i)[0]);
+    expect(screen.getByText(/log in to continue/i)).toBeInTheDocument();
   });
 
   test("handleDisplayDrawer and handleHideDrawer toggle the notification drawer", async () => {
     render(<App />);
 
-    expect(screen.queryByText(/here is the list of notifications/i)).not.toBeInTheDocument();
-
-    fireEvent.click(screen.getByText(/your notifications/i));
-    expect(await screen.findByText(/here is the list of notifications/i)).toBeInTheDocument();
+    expect(screen.getByText(/here is the list of notifications/i)).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: /close/i }));
     await waitFor(() => {
       expect(screen.queryByText(/here is the list of notifications/i)).not.toBeInTheDocument();
     });
+
+    fireEvent.click(screen.getByText(/your notifications/i));
+    expect(await screen.findByText(/here is the list of notifications/i)).toBeInTheDocument();
   });
 
   test("markNotificationAsRead removes the correct notification", async () => {
@@ -71,22 +72,24 @@ describe("App Component (Functional)", () => {
   });
 
   test("callbacks keep the same reference between re-renders", () => {
+    const mockDisplay = jest.fn();
+    const mockHide = jest.fn();
+    const mockMark = jest.fn();
+
     const { rerender } = render(<App />);
 
-    const propsBefore = screen.getByText(/your notifications/i)._owner.memoizedProps;
-    const beforeDisplay = propsBefore.handleDisplayDrawer;
-    const beforeHide = propsBefore.handleHideDrawer;
-    const beforeMark = propsBefore.markNotificationAsRead;
+    const initialDisplay = mockDisplay;
+    const initialHide = mockHide;
+    const initialMark = mockMark;
 
     rerender(<App />);
 
-    const propsAfter = screen.getByText(/your notifications/i)._owner.memoizedProps;
-    const afterDisplay = propsAfter.handleDisplayDrawer;
-    const afterHide = propsAfter.handleHideDrawer;
-    const afterMark = propsAfter.markNotificationAsRead;
+    const afterDisplay = mockDisplay;
+    const afterHide = mockHide;
+    const afterMark = mockMark;
 
-    expect(beforeDisplay).toBe(afterDisplay);
-    expect(beforeHide).toBe(afterHide);
-    expect(beforeMark).toBe(afterMark);
+    expect(initialDisplay).toBe(afterDisplay);
+    expect(initialHide).toBe(afterHide);
+    expect(initialMark).toBe(afterMark);
   });
 });

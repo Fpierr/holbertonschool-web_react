@@ -3,7 +3,7 @@ import BodySection from "./BodySection";
 
 function BodySectionWithMarginBottom({ title, children }) {
   return (
-    <div className="mb-8">
+    <div className="bodySectionWithMargin mb-8">
       <BodySection title={title}>{children}</BodySection>
     </div>
   );

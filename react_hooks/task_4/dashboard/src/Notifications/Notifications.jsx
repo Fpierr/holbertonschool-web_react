@@ -8,10 +8,13 @@ function Notifications({
   displayDrawer = true,
   handleDisplayDrawer,
   handleHideDrawer,
-  markNotificationAsRead, // <-- receive from parent
+  markNotificationAsRead,
 }) {
   // --- Styles ---
-  const borderStyle = { borderColor: "var(--main-color)" };
+  const borderStyle = {
+    borderColor: "var(--main-color)",
+  };
+
   const titleClassName = `text-right pr-8 pt-2 ${
     notifications.length > 0 && !displayDrawer ? "animate-bounce" : ""
   }`;
@@ -21,6 +24,7 @@ function Notifications({
       <div
         className={`${titleClassName} cursor-pointer`}
         onClick={handleDisplayDrawer}
+        data-testid="menuItem"
       >
         Your notifications
       </div>
@@ -29,9 +33,13 @@ function Notifications({
         <div
           className="border-2 border-dashed bg-white p-6 relative float-right mr-8 mt-2 max-w-4xl"
           style={borderStyle}
+          data-testid="Notifications"
         >
           <button
-            onClick={handleHideDrawer}
+            onClick={() => {
+              console.log("Close button has been clicked");
+              handleHideDrawer();
+            }}
             aria-label="Close"
             className="absolute cursor-pointer right-3 top-3 bg-transparent border-none p-0"
           >
@@ -50,8 +58,7 @@ function Notifications({
                     type={notification.type}
                     value={notification.value}
                     html={notification.html}
-                    markAsRead={() => markNotificationAsRead(notification.id)} 
-                    // still an inline arrow, but parent function is memoized
+                    markAsRead={() => markNotificationAsRead(notification.id)} // ✅ utilise bien la prop
                   />
                 ))}
               </ul>
@@ -77,7 +84,7 @@ Notifications.propTypes = {
   displayDrawer: PropTypes.bool.isRequired,
   handleDisplayDrawer: PropTypes.func.isRequired,
   handleHideDrawer: PropTypes.func.isRequired,
-  markNotificationAsRead: PropTypes.func.isRequired, // added prop type
+  markNotificationAsRead: PropTypes.func.isRequired,
 };
 
 const areEqual = (prevProps, nextProps) => {
