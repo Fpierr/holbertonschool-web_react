@@ -9,7 +9,7 @@ class Login extends React.Component {
 
         <form className="flex flex-wrap items-center gap-4">
           <label htmlFor="email" className="flex items-center gap-2">
-            Email:
+            Email
             <input
               type="email"
               id="email"
@@ -19,7 +19,7 @@ class Login extends React.Component {
           </label>
 
           <label htmlFor="password" className="flex items-center gap-2">
-            Password:
+            Password
             <input
               type="password"
               id="password"
