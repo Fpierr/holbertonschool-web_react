@@ -12,9 +12,8 @@ afterEach(() => {
   mockAxios.reset();
 });
 
-/* -------------------------------------------------------------------------- */
-/*                         FETCHING SIDE EFFECT TESTS                         */
-/* -------------------------------------------------------------------------- */
+/*  FETCHING SIDE EFFECT TESTS */
+/* ---------------------------------------------------------- */
 describe("App Data Fetching (Side Effects)", () => {
   test("fetches notifications on mount", async () => {
     render(<App />);
@@ -67,9 +66,8 @@ describe("App Data Fetching (Side Effects)", () => {
   });
 });
 
-/* -------------------------------------------------------------------------- */
-/*                          FUNCTIONAL BEHAVIOR TESTS                         */
-/* -------------------------------------------------------------------------- */
+/*   FUNCTIONAL BEHAVIOR TESTS  */
+/* --------------------------------------------------------------------- */
 describe("App Component (Functional)", () => {
   beforeEach(() => {
     jest.clearAllMocks();

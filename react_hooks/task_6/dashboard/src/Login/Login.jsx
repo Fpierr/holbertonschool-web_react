@@ -23,7 +23,7 @@ function Login({ logIn }) {
         onSubmit={handleSubmit}
       >
         <label htmlFor="email" className="flex items-center gap-2">
-          Email:
+          Email
           <input
             type="email"
             id="email"
@@ -35,7 +35,7 @@ function Login({ logIn }) {
         </label>
 
         <label htmlFor="password" className="flex items-center gap-2">
-          Password:
+          Password
           <input
             type="password"
             id="password"

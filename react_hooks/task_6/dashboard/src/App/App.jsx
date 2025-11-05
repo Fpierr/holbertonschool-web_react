@@ -1,4 +1,5 @@
 import React, { useEffect, useReducer } from "react";
+import axios from "axios";
 import Notifications from "../Notifications/Notifications";
 import Header from "../Header/Header";
 import Login from "../Login/Login";
@@ -6,7 +7,6 @@ import Footer from "../Footer/Footer";
 import CourseList from "../CourseList/CourseList";
 import BodySectionWithMarginBottom from "../BodySection/BodySectionWithMarginBottom";
 import BodySection from "../BodySection/BodySection";
-import axios from "axios";
 import { getLatestNotification } from "../utils/utils";
 import { appReducer, initialState, APP_ACTIONS } from "./appReducer";
 
@@ -19,7 +19,9 @@ function App() {
       try {
         const { data } = await axios.get("/notifications.json");
         const updated = data.map((notif) =>
-          notif.html ? { ...notif, html: { __html: getLatestNotification() } } : notif
+          notif.html
+            ? { ...notif, html: { __html: getLatestNotification() } }
+            : notif
         );
         dispatch({ type: APP_ACTIONS.SET_NOTIFICATIONS, payload: updated });
       } catch (error) {
@@ -31,14 +33,14 @@ function App() {
 
   // Fetch courses when user logs in
   useEffect(() => {
+    if (!state.user.isLoggedIn) return;
+
     const fetchCourses = async () => {
-      if (state.user.isLoggedIn) {
-        try {
-          const { data } = await axios.get("/courses.json");
-          dispatch({ type: APP_ACTIONS.SET_COURSES, payload: data });
-        } catch (error) {
-          if (process.env.NODE_ENV === "development") console.error(error);
-        }
+      try {
+        const { data } = await axios.get("/courses.json");
+        dispatch({ type: APP_ACTIONS.SET_COURSES, payload: data });
+      } catch (error) {
+        if (process.env.NODE_ENV === "development") console.error(error);
       }
     };
     fetchCourses();
@@ -50,7 +52,8 @@ function App() {
 
   const handleLogout = () => dispatch({ type: APP_ACTIONS.LOGOUT });
 
-  const handleToggleDrawer = () => dispatch({ type: APP_ACTIONS.TOGGLE_DRAWER });
+  const handleToggleDrawer = () =>
+    dispatch({ type: APP_ACTIONS.TOGGLE_DRAWER });
 
   const handleMarkNotificationAsRead = (id) =>
     dispatch({ type: APP_ACTIONS.MARK_NOTIFICATION_READ, payload: id });
@@ -64,7 +67,9 @@ function App() {
         handleHideDrawer={handleToggleDrawer}
         markNotificationAsRead={handleMarkNotificationAsRead}
       />
+
       <Header user={state.user} logOut={handleLogout} />
+
       {!state.user.isLoggedIn ? (
         <BodySectionWithMarginBottom title="Log in to continue">
           <Login logIn={handleLogin} />
@@ -74,10 +79,12 @@ function App() {
           <CourseList courses={state.courses} />
         </BodySectionWithMarginBottom>
       )}
+
       <BodySection title="News from the School">
         <p>Holberton School News goes here</p>
       </BodySection>
-      <Footer user={state.user} />
+
+      <Footer user={state.user} logOut={handleLogout} />
     </>
   );
 }
