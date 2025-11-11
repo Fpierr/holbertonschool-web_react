@@ -4,7 +4,6 @@ import { logout } from "../../features/auth/authSlice";
 import holbertonLogo from "../../assets/holberton-logo.jpg";
 
 function Header() {
-
   const dispatch = useDispatch();
   const { user, isLoggedIn } = useSelector((state) => state.auth);
 
@@ -20,8 +19,7 @@ function Header() {
         School dashboard
       </h1>
 
-      {/* Section logout if isLoggedIn */}
-      {isLoggedIn && (
+      {isLoggedIn && user && (
         <section id="logoutSection" className="ml-auto text-right">
           <p>
             Welcome {user.email} (
