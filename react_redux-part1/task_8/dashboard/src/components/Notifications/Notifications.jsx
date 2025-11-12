@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import closeIcon from "../../assets/close-button.png";
+import closeIcon from "../../assets/close-icon.png";
 import NotificationItem from "../NotificationItem/NotificationItem";
 import {
   showDrawer,
