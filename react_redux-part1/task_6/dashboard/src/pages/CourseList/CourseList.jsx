@@ -1,7 +1,7 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import WithLogging from '../../components/HOC/WithLogging';
-import CourseListRow from './CourseListRow/CourseListRow';
+import React from "react";
+import { useSelector } from "react-redux";
+import WithLogging from "../../components/HOC/WithLogging";
+import CourseListRow from "./CourseListRow/CourseListRow";
 
 function CourseList() {
   const courses = useSelector((state) => state.courses.list || []);
