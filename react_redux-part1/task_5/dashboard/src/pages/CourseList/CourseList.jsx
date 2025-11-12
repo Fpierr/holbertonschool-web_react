@@ -4,7 +4,7 @@ import WithLogging from '../../components/HOC/WithLogging';
 import CourseListRow from './CourseListRow/CourseListRow';
 
 function CourseList() {
-  const courses = useSelector((state) => state.courses.list || []);
+  const courses = useSelector((state) => state.courses.courses || []);
 
   return (
     <div className="mx-auto my-32 w-[80%] md:w-[85%] lg:w-[90%]">
